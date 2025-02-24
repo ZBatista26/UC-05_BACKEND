@@ -88,6 +88,14 @@ app.delete("/produtos/:id", (requisicao, resposta) => {
   }
 });
 
+app.delete('/produtos', (requisicao, resposta) => {
+  try {
+    bancoDados.length = 0;
+  } catch (error) {
+    resposta.status(500).json({mensagem: "Erro ao excluir produto", erro:error.message});
+  }
+})
+
 app.get("/produtos/:id", (requisicao, resposta) => {
   try {
     const id = requisicao.params.id;

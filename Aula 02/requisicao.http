@@ -15,8 +15,33 @@ Content-Type: application/json
 
 ###
 
-### Pegar produto pelo ID
+### Pegar produto pelo ID 
 GET http://localhost:3000/produtos/2
 Content-Type: application/json
 
-###
+### Fechamento da rota de buscar o produto por id
+
+### rota para atualizar produto
+
+PUT http://localhost:3000/produtos/2
+Content-Type: application/json
+
+{
+    "novoNome": "RTX 3060 12gb",
+    "novoPreco": 2000
+}
+
+### fechamento da requisição de atualização
+
+### rota para deletar produto
+
+DELETE http://localhost:3000/produtos/1
+Content-Type: application/json
+
+### Fechamento da rota para deletar id 
+
+### rota para deletar todos os produtos
+
+DELETE http://localhost:3000/produtos
+
+### fechamento da rota para deletar todos os produtos
