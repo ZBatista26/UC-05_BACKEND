@@ -14,25 +14,19 @@ class AlunoController{
         }
     }
 
-    static async listarTodos(req, res){
+    static async listarTodos(req,res){
         try {
-            const consulta = `select * from aluno`
-            const aluno = await AlunoModel.listar(aluno)
-            if (consulta.rows.length === 0) {
-                return resposta.status(400).json({})
+            const alunos = await AlunoModel.listar()
+            if(alunos.listar === 0){
+                return res.status(400).json({msg: "Não foi encontrado nenhum aluno"})
+            }
+            res.status(200).json(alunos)
         } catch (error) {
-            
+            res.status(500).json({msg: "Erro ao criar o aluno!", erro: error.message})
         }
     }
 
-    static async editar(req, res){
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
-
+    
     static async listarPorID(req, res){
         try {
             const matricula = req.params.id
@@ -46,21 +40,46 @@ class AlunoController{
         }
     }
 
-    static async excluirPorID(req, res){
+    static async editar(requisicao, resposta) {
         try {
+            const matricula = requisicao.params.id;
+            const { nome, email, senha } = requisicao.body;
             
+            if (!nome && !email && !senha) {
+                return resposta.status(400).json({ mensagem: "Pelo menos um campo deve ser atualizado." });
+            }
+            const alunoAtualizado = await AlunoModel.editar(matricula, { nome, email, senha });
+            if (!alunoAtualizado) {
+                return resposta.status(400).json({ mensagem: "Aluno não encontrado." });
+            }
+            resposta.status(200).json({ mensagem: "Aluno atualizado com sucesso", aluno: alunoAtualizado });
         } catch (error) {
-            
+            resposta.status(500).json({ mensagem: "Erro ao editar aluno.", erro: error.message });
         }
     }
 
-    static async excluirTodos(req, res){
+    static async excluirPorID(requisicao, resposta) {
         try {
-            
+            const matricula = requisicao.params.id;
+            const alunoExcluido = await AlunoModel.excluirPorID(matricula);
+            if (!alunoExcluido) {
+                return resposta.status(400).json({ mensagem: "Aluno não encontrado." });
+            }
+            resposta.status(200).json({ mensagem: "Aluno excluído com sucesso." });
         } catch (error) {
-            
+            resposta.status(500).json({ mensagem: "Erro ao excluir aluno.", erro: error.message });
         }
     }
 
+
+    static async excluirTodos(requisicao, resposta) {
+        try {
+            await AlunoModel.excluirTodos();
+            resposta.status(200).json({ mensagem: "Todos os alunos foram excluídos com sucesso." });
+        } catch (error) {
+            resposta.status(500).json({ mensagem: "Erro ao excluir todos os alunos.", erro: error.message });
+        }
+    }
 }
 
+module.exports = AlunoController;
