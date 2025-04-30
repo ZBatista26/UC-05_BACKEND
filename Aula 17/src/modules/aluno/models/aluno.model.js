@@ -28,8 +28,8 @@ const AlunoModel = sequelize.define('SecretarioModel', {
         allowNull: false,
         validate: {
             isEmail:{
-                args:/^[A-Za-z0-9._%+-]+@rn\.senac\.br$/,
-                msg: 'E-mail invalido! O e-mail deve pertencer ao sominio @rn.senac.br'
+                args:/^[A-Za-z0-9._%+-]+@edum\.rn\.senac\.br$/,
+                msg: 'E-mail invalido! O e-mail deve pertencer ao sominio @edum.rn.senac.br'
             }
         }
     },
@@ -52,8 +52,8 @@ const AlunoModel = sequelize.define('SecretarioModel', {
         type: DataTypes.STRING(8),
         allowNull: false,
         references: {
-            model: turma,
-            key: turma_cod
+            model: 'turma',
+            key: 'turma_cod'
         }
     }
 },
